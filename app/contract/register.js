@@ -1,0 +1,22 @@
+module.exports={
+    registerRequester:{
+        username:{
+            type:"string",
+            require:true,
+            description:"用户名",
+            example:"xiaobai3"
+        },
+        password:{
+            type:"string",
+            require:true,
+            description:"密码",
+            example:"789456123",
+        },
+        code:{
+            type:"string",
+            require:true,
+            description:"邀请码",
+            example:"12345678",
+        }
+    }
+}
