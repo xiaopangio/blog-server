@@ -3,6 +3,20 @@ class UserInfoService extends Service {
     constructor(ctx) {
         super(ctx)
     }
+    async update(id, body) {
+        const { ctx } = this
+        try {
+            await ctx.model.Userinfo.update({ ...body }, {
+                where: {
+                    userId: id
+                }
+            })
+            return "success"
+        } catch (e) {
+            return JSON.stringify(e)
+        }
+
+    }
     async show(id) {
         const { ctx } = this
         try {

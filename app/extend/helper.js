@@ -8,6 +8,7 @@ module.exports = {
         if (data) {
             body.data = data
         }
+        this.ctx.status = 200
         this.ctx.body = body
     },
     error(error, status) {

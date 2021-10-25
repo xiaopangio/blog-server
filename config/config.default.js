@@ -1,5 +1,5 @@
 /* eslint valid-jsdoc: "off" */
-
+const path = require("path")
 'use strict';
 const CryptoJS = require("crypto-js")
 /**
@@ -75,6 +75,16 @@ module.exports = appInfo => {
     // enableValidate: true,
     routerMap: false,
     enable: true,
+  }
+  // 设置静态文件
+  config.static = {
+    prefix: '/public',
+    dir: path.join(appInfo.baseDir, "app/public"),
+    dynamic: true,//如果当前访问的静态资源没有缓存，就缓存
+    preload: false,
+    maxAge: 30000000,
+    buffer: true
+
   }
   return {
     ...config,
