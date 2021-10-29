@@ -13,6 +13,8 @@ module.exports = app => {
   router.get('/admin/province', controller.region.province)
   router.get('/admin/city/:id', controller.region.city)
   router.get('/admin/area/:id', controller.region.area)
+  router.get('/admin/route', controller.menu.route)
   router.resources('userInfos', '/admin/userinfo', controller.userInfo)
   router.resources('user', '/admin/user', controller.user)
+  router.resources('menu', '/admin/menu', controller.menu)
 };

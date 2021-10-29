@@ -57,5 +57,27 @@ module.exports = {
         return this.app.jwt.sign(opt, this.app.config.jwt.secret, {
             expiresIn: '7d'//设置时效，后面会根据实际情况改变
         })
+    },
+    // 转换为树形结构
+    toTree(arr) {
+        console.log(arr)
+        const parent = [], children = []
+        arr.forEach((item) => {
+            // 不存在pid 代表是父级元素
+            if (!item.pid) {
+                item.children = []
+                parent.push(item)
+            } else {
+                children.push(item)
+            }
+        })
+        for (let i = 0; i < children.length; i++) {
+            for (let j = 0; j < parent.length; j++) {
+                if (children[i].pid === parent[j].id) {
+                    parent[j].children.push(children[i]);
+                }
+            }
+        }
+        return parent;
     }
 }

@@ -1,5 +1,7 @@
 const { Service } = require("egg")
+const sequelize = require("sequelize")
 class UserService extends Service {
+
     constructor(ctx) {
         super(ctx)
     }
@@ -7,12 +9,20 @@ class UserService extends Service {
         const { pageSize, pageNum } = query
         const offset = (pageNum - 1) * pageSize;
         console.log(offset)
-        const data = await this.ctx.model.User.findAndCountAll({
+        const options = {
             attributes: { exclude: ['password'] },
             limit: pageSize * 1,
-            offset
-        })
-        console.log(data)
+            offset,
+            where: {}
+        }
+        if (query.key) {
+            options.where = {
+                [query.key]: {
+                    [sequelize.Op.like]: `%${query.keyword}`,
+                }
+            }
+        }
+        const data = await this.ctx.model.User.findAndCountAll(options)
         return data
     }
     async show(id) {
@@ -86,7 +96,12 @@ class UserService extends Service {
             const data = await ctx.model.User.destroy({
                 where: { id }
             })
-            if (data === 0) {
+            const userinfoData = await ctx.model.Userinfo.destroy({
+                where: {
+                    userId: id,
+                }
+            })
+            if (data === 0 || userinfoData === 0) {
                 return '该数据不存在'
             } else {
                 return 'success'

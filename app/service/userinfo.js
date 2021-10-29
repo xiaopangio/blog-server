@@ -21,6 +21,11 @@ class UserInfoService extends Service {
         const { ctx } = this
         try {
             const data = await ctx.model.Userinfo.findOne({
+                include: [
+                    {
+                        model: ctx.model.Role,
+                    }
+                ],
                 where: {
                     userId: id
                 }

@@ -1,7 +1,14 @@
 const Controller = require('egg').Controller
 const indexRule = {
     pageSize: "string",
-    pageNum: "string"
+    pageNum: "string",
+    // 模糊搜索
+    key: { type: 'enum', values: ['username', 'code', 'status'], required: false },
+    keyword: {
+        type: "string",
+        required: false
+    }
+
 }
 const createRule = {
     username: "string",
@@ -53,6 +60,7 @@ class UserController extends Controller {
     async create() {
         const { ctx } = this;
         try {
+            console.log(ctx.request.body);
             ctx.validate(createRule, ctx.request.body)
             const status = await ctx.service.user.create(ctx.request.body)
             if (status === 'success') {
